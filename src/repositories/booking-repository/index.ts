@@ -19,7 +19,11 @@ async function findByRoomId(roomId: number) {
       roomId,
     },
     include: {
-      Room: true,
+      Room: {
+        include: {
+          Hotel: true
+        }
+      }
     }
   });
 }
@@ -30,7 +34,7 @@ async function findByUserId(userId: number) {
       userId,
     },
     include: {
-      Room: true,
+      Room: true
     }
   });
 }
