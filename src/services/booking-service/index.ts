@@ -29,17 +29,25 @@ async function checkValidBooking(roomId: number) {
 }
 
 async function getBooking(userId: number) {
-  const booking = await bookingRepository.findByUserId(userId);
-  if (!booking) {
+  const userBooking = await bookingRepository.findByUserId(userId);
+  if (!userBooking) {
     throw notFoundError();
   }
 
-  return booking;
+  const roomBookings = await bookingRepository.findByRoomId(userBooking.roomId);
+
+  return roomBookings;
 }
 
 async function bookingRoomById(userId: number, roomId: number) {
   await checkEnrollmentTicket(userId);
   await checkValidBooking(roomId);
+
+  const booking = await bookingRepository.findByUserId(userId);
+
+  if (booking) {
+    throw cannotBookingError();
+  }
 
   return bookingRepository.create({ roomId, userId });
 }
