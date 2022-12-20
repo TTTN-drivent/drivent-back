@@ -17,13 +17,6 @@ async function findByRoomId(roomId: number) {
   return prisma.booking.findMany({
     where: {
       roomId,
-    },
-    include: {
-      Room: {
-        include: {
-          Hotel: true
-        }
-      }
     }
   });
 }
@@ -34,7 +27,11 @@ async function findByUserId(userId: number) {
       userId,
     },
     include: {
-      Room: true
+      Room: {
+        include: {
+          Hotel: true
+        },
+      }
     }
   });
 }
