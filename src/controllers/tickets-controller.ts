@@ -13,6 +13,23 @@ export async function getTicketTypes(req: AuthenticatedRequest, res: Response) {
   }
 }
 
+export async function getTicketTypesByName(req: AuthenticatedRequest, res: Response) {
+  const name = req.params.tickettypename as string;
+
+  try {
+    const ticketTypes = await ticketService.getTicketTypeByname(name);
+
+    return res.status(httpStatus.OK).send(ticketTypes);
+  } catch (error) {
+    if (error.name === "BadRequestError") {
+      return res.sendStatus(httpStatus.BAD_REQUEST);
+    }
+    if (error.name === "NotFoundError") {
+      return res.sendStatus(httpStatus.NOT_FOUND);
+    }
+  }
+}
+
 export async function getTickets(req: AuthenticatedRequest, res: Response) {
   const { userId } = req;
 
@@ -43,4 +60,3 @@ export async function createTicket(req: AuthenticatedRequest, res: Response) {
     return res.sendStatus(httpStatus.NOT_FOUND);
   }
 }
-
