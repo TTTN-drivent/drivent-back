@@ -1,4 +1,4 @@
-import { notFoundError, badRequestError } from "@/errors";
+import { conflictError, notFoundError } from "@/errors";
 import ticketRepository from "@/repositories/ticket-repository";
 import enrollmentRepository from "@/repositories/enrollment-repository";
 import { TicketStatus } from "@prisma/client";
@@ -13,12 +13,12 @@ async function getTicketTypes() {
 }
 
 async function getTicketTypeByname(name: string) {
-  if (!name) throw badRequestError();
+  const ticketType = await ticketRepository.findTicketTypeByName(name);
 
-  const ticketType = ticketRepository.findTicketTypeByName(name);
-
-  if (!ticketType) throw notFoundError();
-
+  if (!ticketType) {
+    throw notFoundError();
+  }
+  throw notFoundError();
   return ticketType;
 }
 
@@ -28,9 +28,6 @@ async function getTicketByUserId(userId: number) {
     throw notFoundError();
   }
   const ticket = await ticketRepository.findTicketByEnrollmentId(enrollment.id);
-  if (!ticket) {
-    throw notFoundError();
-  }
 
   return ticket;
 }
@@ -39,6 +36,11 @@ async function createTicket(userId: number, ticketTypeId: number) {
   const enrollment = await enrollmentRepository.findWithAddressByUserId(userId);
   if (!enrollment) {
     throw notFoundError();
+  }
+
+  const ticketExists = await ticketRepository.findTicketByEnrollmentId(enrollment.id);
+  if(ticketExists) {
+    throw conflictError("Not possible to create other ticket for user!");
   }
 
   const ticketData = {

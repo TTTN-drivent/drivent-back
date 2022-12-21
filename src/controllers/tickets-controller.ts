@@ -3,7 +3,7 @@ import ticketService from "@/services/tickets-service";
 import { Response } from "express";
 import httpStatus from "http-status";
 
-export async function getTicketTypes(req: AuthenticatedRequest, res: Response) {
+export async function getTicketTypes(_req: AuthenticatedRequest, res: Response) {
   try {
     const ticketTypes = await ticketService.getTicketTypes();
 
@@ -57,6 +57,9 @@ export async function createTicket(req: AuthenticatedRequest, res: Response) {
 
     return res.status(httpStatus.CREATED).send(ticketTypes);
   } catch (error) {
+    if (error.name === "ConflictError") {
+      return res.status(httpStatus.CONFLICT).send(error.message);
+    }
     return res.sendStatus(httpStatus.NOT_FOUND);
   }
 }

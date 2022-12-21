@@ -44,6 +44,9 @@ export async function paymentProcess(req: AuthenticatedRequest, res: Response) {
 
     return res.status(httpStatus.OK).send(payment);
   } catch (error) {
+    if (error.name === "ConflictError") {
+      return res.status(httpStatus.CONFLICT).send(error.message);
+    }
     if (error.name === "UnauthorizedError") {
       return res.sendStatus(httpStatus.UNAUTHORIZED);
     }
