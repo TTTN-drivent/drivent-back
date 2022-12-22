@@ -1,22 +1,66 @@
-import { PrismaClient } from "@prisma/client";
-import dayjs from "dayjs";
+import { Hotel, PrismaClient, Room, TicketType } from "@prisma/client";
+import { eventData, HotelsData, RoomsFirstHotelData, RoomsSecondHotelData, RoomsThirdHotelData, ticketTypesData } from "./seedData";
 const prisma = new PrismaClient();
 
 async function main() {
+  await cleanDb();
+
+  //Event
   let event = await prisma.event.findFirst();
-  if (!event) {
+
+  if(!event){
     event = await prisma.event.create({
-      data: {
-        title: "Driven.t",
-        logoImageUrl: "https://files.driveneducation.com.br/images/logo-rounded.png",
-        backgroundImageUrl: "linear-gradient(to right, #FA4098, #FFD77F)",
-        startsAt: dayjs().toDate(),
-        endsAt: dayjs().add(21, "days").toDate(),
-      },
+      data: eventData
     });
   }
 
-  console.log({ event });
+  //TicketType
+    const ticketTypes = await prisma.$transaction(
+      ticketTypesData.map((value) => prisma.ticketType.create({ data: value }))
+    )
+
+  //Hotel
+    const hotels = await prisma.$transaction(
+      HotelsData.map((value) => prisma.hotel.create({ data: value }))
+    )
+
+  //Room
+    const roomsFirstHotel = await prisma.$transaction(
+      RoomsFirstHotelData.map((value) => prisma.room.create({ 
+        data: {
+          ...value,
+          hotelId: hotels[0].id
+      } }))
+    );
+
+    const roomsSecondHotel = await prisma.$transaction(
+      RoomsSecondHotelData.map((value) => prisma.room.create({ 
+        data: {
+          ...value,
+          hotelId: hotels[1].id
+      } }))
+    );
+
+    const roomsThridHotel = await prisma.$transaction(
+      RoomsThirdHotelData.map((value) => prisma.room.create({ 
+        data: {
+          ...value,
+          hotelId: hotels[2].id
+      } }))
+    );
+
+      const rooms = [...roomsFirstHotel, ...roomsSecondHotel, ...roomsThridHotel];
+
+  console.log({ event, ticketTypes, hotels, rooms });
+}
+
+export async function cleanDb() {
+  await prisma.payment.deleteMany({});
+  await prisma.ticket.deleteMany({});
+  await prisma.booking.deleteMany({});
+  await prisma.ticketType.deleteMany({});
+  await prisma.room.deleteMany({});
+  await prisma.hotel.deleteMany({});
 }
 
 main()
