@@ -3,13 +3,30 @@ import ticketService from "@/services/tickets-service";
 import { Response } from "express";
 import httpStatus from "http-status";
 
-export async function getTicketTypes(req: AuthenticatedRequest, res: Response) {
+export async function getTicketTypes(_req: AuthenticatedRequest, res: Response) {
   try {
     const ticketTypes = await ticketService.getTicketTypes();
 
     return res.status(httpStatus.OK).send(ticketTypes);
   } catch (error) {
     return res.sendStatus(httpStatus.NO_CONTENT);
+  }
+}
+
+export async function getTicketTypesByName(req: AuthenticatedRequest, res: Response) {
+  const name = req.params.tickettypename as string;
+
+  try {
+    const ticketTypes = await ticketService.getTicketTypeByname(name);
+
+    return res.status(httpStatus.OK).send(ticketTypes);
+  } catch (error) {
+    if (error.name === "BadRequestError") {
+      return res.sendStatus(httpStatus.BAD_REQUEST);
+    }
+    if (error.name === "NotFoundError") {
+      return res.sendStatus(httpStatus.NOT_FOUND);
+    }
   }
 }
 
@@ -40,7 +57,9 @@ export async function createTicket(req: AuthenticatedRequest, res: Response) {
 
     return res.status(httpStatus.CREATED).send(ticketTypes);
   } catch (error) {
+    if (error.name === "ConflictError") {
+      return res.status(httpStatus.CONFLICT).send(error.message);
+    }
     return res.sendStatus(httpStatus.NOT_FOUND);
   }
 }
-
