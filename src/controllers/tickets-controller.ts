@@ -38,6 +38,9 @@ export async function getTickets(req: AuthenticatedRequest, res: Response) {
 
     return res.status(httpStatus.OK).send(ticketTypes);
   } catch (error) {
+    if (error.name === "cannotGetTicketsError") {
+      return res.sendStatus(httpStatus.FORBIDDEN);
+    }
     return res.sendStatus(httpStatus.NOT_FOUND);
   }
 }
