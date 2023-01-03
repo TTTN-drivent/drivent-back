@@ -2,11 +2,11 @@ import { Hotel, Room, TicketType } from "@prisma/client";
 import dayjs from "dayjs";
 
 export const eventData = {
-    title: "Driven.t",
-    logoImageUrl: "https://files.driveneducation.com.br/images/logo-rounded.png",
-    backgroundImageUrl: "linear-gradient(to right, #FA4098, #FFD77F)",
-    startsAt: dayjs().toDate(),
-    endsAt: dayjs().add(21, "days").toDate(),
+  title: "Driven.t",
+  logoImageUrl: "https://files.driveneducation.com.br/images/logo-rounded.png",
+  backgroundImageUrl: "linear-gradient(to right, #FA4098, #FFD77F)",
+  startsAt: dayjs().toDate(),
+  endsAt: dayjs().add(21, "days").toDate(),
 }
 
 export const ticketTypesData = [{
@@ -29,15 +29,15 @@ export const ticketTypesData = [{
 }] as TicketType[]
 
 export const HotelsData = [{
-  name:  'Hotel Driven',
+  name: 'Hotel Driven',
   image: 'https://blog.maxmilhas.com.br/wp-content/uploads/2016/01/pr%C3%A9dio-de-hotel.jpg'
 },
 {
-  name: 'Driven Resort', 
+  name: 'Driven Resort',
   image: 'https://media-cdn.tripadvisor.com/media/photo-s/16/1a/ea/54/hotel-presidente-4s.jpg'
 },
 {
-  name: 'Hotel Alonis', 
+  name: 'Hotel Alonis',
   image: 'https://www.hotelpremiumcampinas.com.br/wp-content/uploads/2021/08/fachada-scaled.jpg'
 }] as Hotel[];
 
@@ -176,3 +176,15 @@ export const RoomsThirdHotelData = [{
   capacity: 3
 },
 ] as Room[]
+
+export const activityLocalData = [
+  {
+    name: ''
+  },
+  {
+    name: ''
+  },
+  {
+    name: ''
+  },
+]
