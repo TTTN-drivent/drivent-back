@@ -8,6 +8,9 @@ async function findActivityByDateId(activityDateId: number) {
   return await prisma.activity.findMany({
     where: {
       activityDateId
+    },
+    include: {
+      ActivityLocal: true
     }
   });
 }

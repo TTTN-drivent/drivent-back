@@ -253,19 +253,19 @@ export const secondActivityData = [
     name: 'Palestra x',
     capacity: 27,
     startAt: dayjs(`${firstDay} 11:00`, 'YYYY-MM-DD HH:mm').toDate(),
-    endAt: dayjs(`${firstDay} 11:30`, 'YYYY-MM-DD HH:mm').toDate()
+    endAt: dayjs(`${firstDay} 12:00`, 'YYYY-MM-DD HH:mm').toDate()
   },
   {
     name: 'Palestra y',
     capacity: 27,
     startAt: dayjs(`${firstDay} 09:00`, 'YYYY-MM-DD HH:mm').toDate(),
-    endAt: dayjs(`${firstDay} 10:30`, 'YYYY-MM-DD HH:mm').toDate()
+    endAt: dayjs(`${firstDay} 10:00`, 'YYYY-MM-DD HH:mm').toDate()
   },
   {
     name: 'Palestra z',
     capacity: 0,
-    startAt: dayjs(`${firstDay} 10:30`, 'YYYY-MM-DD HH:mm').toDate(),
-    endAt: dayjs(`${firstDay} 11:30`, 'YYYY-MM-DD HH:mm').toDate()
+    startAt: dayjs(`${firstDay} 10:00`, 'YYYY-MM-DD HH:mm').toDate(),
+    endAt: dayjs(`${firstDay} 12:00`, 'YYYY-MM-DD HH:mm').toDate()
   }] as Activity[]
 
 export const thirdActivityData = [{
@@ -278,11 +278,11 @@ export const thirdActivityData = [{
   name: 'Coffee Break',
   capacity: 27,
   startAt: dayjs(`${firstDay} 10:00`, 'YYYY-MM-DD HH:mm').toDate(),
-  endAt: dayjs(`${firstDay} 10:20`, 'YYYY-MM-DD HH:mm').toDate()
+  endAt: dayjs(`${firstDay} 12:00`, 'YYYY-MM-DD HH:mm').toDate()
 },
 {
   name: 'Palestra Final',
   capacity: 100,
-  startAt: dayjs(`${firstDay} 10:20`, 'YYYY-MM-DD HH:mm').toDate(),
-  endAt: dayjs(`${firstDay} 11:00`, 'YYYY-MM-DD HH:mm').toDate()
+  startAt: dayjs(`${firstDay} 12:00`, 'YYYY-MM-DD HH:mm').toDate(),
+  endAt: dayjs(`${firstDay} 13:00`, 'YYYY-MM-DD HH:mm').toDate()
 }] as Activity[]
