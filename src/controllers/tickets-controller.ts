@@ -14,7 +14,7 @@ export async function getTicketTypes(_req: AuthenticatedRequest, res: Response) 
 }
 
 export async function getTicketTypesByName(req: AuthenticatedRequest, res: Response) {
-  const name = req.params.tickettypename as string;
+  const name = req.params.ticketTypeName as string;
 
   try {
     const ticketTypes = await ticketService.getTicketTypeByname(name);

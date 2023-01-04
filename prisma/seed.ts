@@ -1,4 +1,4 @@
-import { Hotel, PrismaClient, Room, TicketType } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { eventData, HotelsData, RoomsFirstHotelData, RoomsSecondHotelData, RoomsThirdHotelData, ticketTypesData } from "./seedData";
 const prisma = new PrismaClient();
 
