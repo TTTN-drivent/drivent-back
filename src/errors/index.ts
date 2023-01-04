@@ -8,3 +8,5 @@ export * from "./request-error";
 export * from "./cannot-booking-error";
 export * from "./invalid-ticket-type-error";
 export * from "./bad-request-error";
+export * from "./cannot-list-activities-error";
+export * from "./payment-required-error";

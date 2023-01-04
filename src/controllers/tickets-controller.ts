@@ -14,7 +14,7 @@ export async function getTicketTypes(_req: AuthenticatedRequest, res: Response) 
 }
 
 export async function getTicketTypesByName(req: AuthenticatedRequest, res: Response) {
-  const name = req.params.tickettypename as string;
+  const name = req.params.ticketTypeName as string;
 
   try {
     const ticketTypes = await ticketService.getTicketTypeByname(name);
@@ -38,6 +38,9 @@ export async function getTickets(req: AuthenticatedRequest, res: Response) {
 
     return res.status(httpStatus.OK).send(ticketTypes);
   } catch (error) {
+    if (error.name === "cannotGetTicketsError") {
+      return res.sendStatus(httpStatus.FORBIDDEN);
+    }
     return res.sendStatus(httpStatus.NOT_FOUND);
   }
 }

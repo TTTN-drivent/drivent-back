@@ -7,7 +7,7 @@ const ticketsRouter = Router();
 ticketsRouter
   .all("/*", authenticateToken)
   .get("/types", getTicketTypes)
-  .get("/types/:tickettypename", getTicketTypesByName)
+  .get("/types/:ticketTypeName", getTicketTypesByName)
   .get("", getTickets)
   .post("", createTicket);
 
