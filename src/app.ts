@@ -16,9 +16,9 @@ import {
   ticketsRouter,
   paymentsRouter,
   hotelsRouter,
-  bookingRouter
+  bookingRouter,
+  activitiesRouter
 } from "@/routers";
-import { activitiesRouter } from "./routers/activity-router";
 
 const app = express();
 app
@@ -33,7 +33,7 @@ app
   .use("/payments", paymentsRouter)
   .use("/hotels", hotelsRouter)
   .use("/booking", bookingRouter)
-  .use("/activity", activitiesRouter)
+  .use("/activities", activitiesRouter)
   .use(handleApplicationErrors);
 
 export function init(): Promise<Express> {
