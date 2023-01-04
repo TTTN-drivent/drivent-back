@@ -1,13 +1,18 @@
-import { Hotel, Room, TicketType } from "@prisma/client";
+import { Activity, ActivityDate, ActivityLocal, Hotel, Room, TicketType } from "@prisma/client";
 import dayjs from "dayjs";
+
+const today = dayjs(dayjs()).format('YYYY-MM-DD');
+const firstDay = dayjs(today).add(19, "days").format('YYYY-MM-DD');
+const secondDay = dayjs(today).add(20, "days").format('YYYY-MM-DD');
+const thirdDay = dayjs(today).add(21, "days").format('YYYY-MM-DD');
 
 export const eventData = {
   title: "Driven.t",
   logoImageUrl: "https://files.driveneducation.com.br/images/logo-rounded.png",
   backgroundImageUrl: "linear-gradient(to right, #FA4098, #FFD77F)",
-  startsAt: dayjs().toDate(),
-  endsAt: dayjs().add(21, "days").toDate(),
-}
+  startsAt: dayjs(today).toDate(),
+  endsAt: dayjs(thirdDay).toDate(),
+};
 
 export const ticketTypesData = [{
   name: "Online",
@@ -26,7 +31,7 @@ export const ticketTypesData = [{
   price: 60000,
   isRemote: false,
   includesHotel: true
-}] as TicketType[]
+}] as TicketType[];
 
 export const HotelsData = [{
   name: 'Hotel Driven',
@@ -88,7 +93,7 @@ export const RoomsFirstHotelData = [{
 {
   name: '304',
   capacity: 3
-}] as Room[]
+}] as Room[];
 
 export const RoomsSecondHotelData = [{
   name: '001',
@@ -113,7 +118,7 @@ export const RoomsSecondHotelData = [{
 {
   name: '013',
   capacity: 3
-}] as Room[]
+}] as Room[];
 
 export const RoomsThirdHotelData = [{
   name: '1001',
@@ -175,16 +180,109 @@ export const RoomsThirdHotelData = [{
   name: '1043',
   capacity: 3
 },
-] as Room[]
+] as Room[];
 
 export const activityLocalData = [
   {
-    name: ''
+    name: 'Auditório Principal'
   },
   {
-    name: ''
+    name: 'Auditório Lateral'
   },
   {
-    name: ''
+    name: 'Sala de Workshop'
+  }] as ActivityLocal[];
+
+export const activityDateData = [
+  {
+    date: dayjs(firstDay).toDate(),
   },
-]
+  {
+    date: dayjs(secondDay).toDate(),
+  },
+  {
+    date: dayjs(thirdDay).toDate(),
+  }] as ActivityDate[];
+
+export const firstActivityData = [
+  {
+    name: 'Minecraft: montando o PC ideal',
+    capacity: 27,
+    startAt: dayjs(`${firstDay} 09:00`, 'YYYY-MM-DD HH:mm').toDate(),
+    endAt: dayjs(`${firstDay} 10:00`, 'YYYY-MM-DD HH:mm').toDate()
+  },
+  {
+    name: 'LoL: montando o PC ideal',
+    capacity: 0,
+    startAt: dayjs(`${firstDay} 10:00`, 'YYYY-MM-DD HH:mm').toDate(),
+    endAt: dayjs(`${firstDay} 11:00`, 'YYYY-MM-DD HH:mm').toDate()
+  },
+  {
+    name: 'Palestra x',
+    capacity: 27,
+    startAt: dayjs(`${firstDay} 09:00`, 'YYYY-MM-DD HH:mm').toDate(),
+    endAt: dayjs(`${firstDay} 11:00`, 'YYYY-MM-DD HH:mm').toDate()
+  },
+  {
+    name: 'Palestra y',
+    capacity: 27,
+    startAt: dayjs(`${firstDay} 09:00`, 'YYYY-MM-DD HH:mm').toDate(),
+    endAt: dayjs(`${firstDay} 10:00`, 'YYYY-MM-DD HH:mm').toDate()
+  },
+  {
+    name: 'Palestra z',
+    capacity: 0,
+    startAt: dayjs(`${firstDay} 10:00`, 'YYYY-MM-DD HH:mm').toDate(),
+    endAt: dayjs(`${firstDay} 11:00`, 'YYYY-MM-DD HH:mm').toDate()
+  }] as Activity[]
+
+export const secondActivityData = [
+  {
+    name: 'Minecraft: montando o PC ideal',
+    capacity: 52,
+    startAt: dayjs(`${firstDay} 09:00`, 'YYYY-MM-DD HH:mm').toDate(),
+    endAt: dayjs(`${firstDay} 10:00`, 'YYYY-MM-DD HH:mm').toDate()
+  },
+  {
+    name: 'LoL: montando o PC ideal',
+    capacity: 0,
+    startAt: dayjs(`${firstDay} 10:00`, 'YYYY-MM-DD HH:mm').toDate(),
+    endAt: dayjs(`${firstDay} 11:00`, 'YYYY-MM-DD HH:mm').toDate()
+  },
+  {
+    name: 'Palestra x',
+    capacity: 27,
+    startAt: dayjs(`${firstDay} 11:00`, 'YYYY-MM-DD HH:mm').toDate(),
+    endAt: dayjs(`${firstDay} 11:30`, 'YYYY-MM-DD HH:mm').toDate()
+  },
+  {
+    name: 'Palestra y',
+    capacity: 27,
+    startAt: dayjs(`${firstDay} 09:00`, 'YYYY-MM-DD HH:mm').toDate(),
+    endAt: dayjs(`${firstDay} 10:30`, 'YYYY-MM-DD HH:mm').toDate()
+  },
+  {
+    name: 'Palestra z',
+    capacity: 0,
+    startAt: dayjs(`${firstDay} 10:30`, 'YYYY-MM-DD HH:mm').toDate(),
+    endAt: dayjs(`${firstDay} 11:30`, 'YYYY-MM-DD HH:mm').toDate()
+  }] as Activity[]
+
+export const thirdActivityData = [{
+  name: 'Palestra x',
+  capacity: 27,
+  startAt: dayjs(`${firstDay} 09:00`, 'YYYY-MM-DD HH:mm').toDate(),
+  endAt: dayjs(`${firstDay} 10:00`, 'YYYY-MM-DD HH:mm').toDate()
+},
+{
+  name: 'Coffee Break',
+  capacity: 27,
+  startAt: dayjs(`${firstDay} 10:00`, 'YYYY-MM-DD HH:mm').toDate(),
+  endAt: dayjs(`${firstDay} 10:20`, 'YYYY-MM-DD HH:mm').toDate()
+},
+{
+  name: 'Palestra Final',
+  capacity: 100,
+  startAt: dayjs(`${firstDay} 10:20`, 'YYYY-MM-DD HH:mm').toDate(),
+  endAt: dayjs(`${firstDay} 11:00`, 'YYYY-MM-DD HH:mm').toDate()
+}] as Activity[]

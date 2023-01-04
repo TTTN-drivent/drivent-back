@@ -162,15 +162,15 @@ model Activity {
   id               Int                @id @default(autoincrement())
   name             String
   capacity         Int
+  startAt          DateTime
+  endAt            DateTime
   ActivityDate     ActivityDate       @relation(fields: [activityDateId], references: [id])
   activityDateId   Int
   ActivityLocal    ActivityLocal      @relation(fields: [activityLocalId], references: [id])
+  ActivityRegister ActivityRegister[]
   activityLocalId  Int
-  startDate        DateTime
-  endDate          DateTime
   createdAt        DateTime           @default(now())
   updatedAt        DateTime           @updatedAt
-  ActivityRegister ActivityRegister[]
 }
 
 model ActivityRegister {
