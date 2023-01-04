@@ -18,7 +18,7 @@ async function getTicketTypeByname(name: string) {
   if (!ticketType) {
     throw notFoundError();
   }
-  throw notFoundError();
+
   return ticketType;
 }
 
