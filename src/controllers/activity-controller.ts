@@ -1,7 +1,7 @@
 import { Response } from "express";
 import { AuthenticatedRequest } from "@/middlewares";
 import httpStatus from "http-status";
-import activityService from "@/services/activity-service";
+import activityService from "@/services/activities-service";
 
 export async function getActivityDates(req: AuthenticatedRequest, res: Response) {
   try {
