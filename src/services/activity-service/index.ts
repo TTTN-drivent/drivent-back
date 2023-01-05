@@ -1,5 +1,5 @@
 import { cannotListActivitiesError, notFoundError, paymentRequiredError } from "@/errors";
-import activityRepository from "@/repositories/activities-repository";
+import activityRepository from "@/repositories/activity-repository";
 import enrollmentRepository from "@/repositories/enrollment-repository";
 import ticketRepository from "@/repositories/ticket-repository";
 
