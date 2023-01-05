@@ -1,13 +1,13 @@
 import { AuthenticatedRequest } from "@/middlewares";
+import activitiesService from "@/services/activities-service";
 import { Response } from "express";
 import httpStatus from "http-status";
-import activitiesService from "@/services/activities-service/index";
 
-export async function listActivities(req: AuthenticatedRequest, res: Response) {
+export async function getActivityDates(req: AuthenticatedRequest, res: Response) {
+  const { userId } = req;
   try {
-    const { userId } = req;
-    const activities = await activitiesService.listActivities(userId);
-    return res.status(httpStatus.OK).send(activities);
+    const dates = await activitiesService.getDates(userId);
+    return res.status(httpStatus.OK).send(dates);
   } catch (error) {
     if (error.name === "NotFoundError") {
       return res.sendStatus(httpStatus.NOT_FOUND);
@@ -15,7 +15,10 @@ export async function listActivities(req: AuthenticatedRequest, res: Response) {
     if (error.name === "PaymentRequiredError") {
       return res.sendStatus(httpStatus.PAYMENT_REQUIRED);
     }
-    return res.sendStatus(httpStatus.FORBIDDEN);
+    if (error.name === "cannotListActivitiesError") {
+      return res.sendStatus(httpStatus.FORBIDDEN);
+    }
+    return res.sendStatus(httpStatus.BAD_REQUEST);
   }
 }
 
@@ -38,6 +41,24 @@ export async function insertRegister(req: AuthenticatedRequest, res: Response) {
   try {
     await activitiesService.createRegister(userId, activityId);
     return res.sendStatus(httpStatus.CREATED); 
+  } catch (error) {   
+    if (error.name === "PaymentRequiredError") {
+      return res.sendStatus(httpStatus.PAYMENT_REQUIRED);
+    }
+    if (error.name === "cannotListActivitiesError") {
+      return res.sendStatus(httpStatus.FORBIDDEN);
+    }
+    return res.sendStatus(httpStatus.BAD_REQUEST);
+  }
+}
+
+export async function getActivityByActivityDateId(req: AuthenticatedRequest, res: Response) {
+  const { userId } = req;
+  const { activityDateId } = req.params;
+
+  try {
+    const activities = await activitiesService.getActivitiesByDateId(Number(userId), Number(activityDateId));
+    return res.status(httpStatus.OK).send(activities);
   } catch (error) {
     if (error.name === "NotFoundError") {
       return res.sendStatus(httpStatus.NOT_FOUND);

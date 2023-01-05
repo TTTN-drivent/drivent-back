@@ -5,15 +5,15 @@ import {
   cannotSaveActivityError, 
   conflictError } from "@/errors";
 import enrollmentRepository from "@/repositories/enrollment-repository";
-import tikectRepository from "@/repositories/ticket-repository";
-import activitiesRepository from "@/repositories/activities-repository";
+import ticketRepository from "@/repositories/ticket-repository";
+import activityRepository from "@/repositories/activity-repository";
 
-async function listActivities(userId: number) {
+async function enrollmentTicketValidation(userId: number) {
   const enrollment = await enrollmentRepository.findWithAddressByUserId(userId);
   if (!enrollment) {
     throw notFoundError();
   }
-  const ticket = await tikectRepository.findTicketByEnrollmentId(enrollment.id);
+  const ticket = await ticketRepository.findTicketByEnrollmentId(enrollment.id);
 
   if (!ticket || ticket.status === "RESERVED") {
     throw paymentRequiredError();
@@ -22,11 +22,31 @@ async function listActivities(userId: number) {
   if (ticket.TicketType.isRemote ) {
     throw cannotListActivitiesError();
   }
-  return "a";
+}
+
+async function getDates(userId: number) {
+  await enrollmentTicketValidation(userId);
+
+  const activityDates = await activityRepository.findActivityDates();
+  if (!activityDates.length) {
+    throw notFoundError();
+  }
+  return activityDates;
+}
+
+async function getActivitiesByDateId(userId: number, activityDateId: number) {
+  await enrollmentTicketValidation(userId);
+
+  const filteredActivities = await activityRepository.findActivityByDateId(activityDateId);
+
+  if (!filteredActivities.length) {
+    throw notFoundError();
+  }
+  return filteredActivities;
 }
 
 async function listRegisters(userId: number, activityId: number) {
-  const activityRegisters = await activitiesRepository.listRegistersByActivityId(activityId);
+  const activityRegisters = await activityRepository.listRegistersByActivityId(activityId);
 
   const userRegister = activityRegisters.find(reg => reg.userId === userId);
   const isRegistered = userRegister ? true : false;
@@ -36,8 +56,8 @@ async function listRegisters(userId: number, activityId: number) {
 }
 
 async function createRegister(userId: number, activityId: number) {
-  const activity = await activitiesRepository.listActivity(activityId);
-  const userRegister = await activitiesRepository.listRegistersByUserId(userId);
+  const activity = await activityRepository.listActivity(activityId);
+  const userRegister = await activityRepository.listRegistersByUserId(userId);
 
   if(!activity) {
     throw notFoundError();
@@ -53,13 +73,14 @@ async function createRegister(userId: number, activityId: number) {
     throw conflictError();
   } */
 
-  const newRegister = await activitiesRepository.createRegister(userId, activityId);
+  const newRegister = await activityRepository.createRegister(userId, activityId);
 
   return newRegister;
 }
 
 const activitiesService = {
-  listActivities,
+  getDates,
+  getActivitiesByDateId,
   listRegisters,
   createRegister
 };
