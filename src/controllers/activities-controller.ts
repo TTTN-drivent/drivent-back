@@ -48,7 +48,7 @@ export async function insertRegister(req: AuthenticatedRequest, res: Response) {
     if (error.name === "cannotListActivitiesError") {
       return res.sendStatus(httpStatus.FORBIDDEN);
     }
-    return res.sendStatus(httpStatus.BAD_REQUEST);
+    return res.sendStatus(httpStatus.CONFLICT);
   }
 }
 
@@ -66,6 +66,6 @@ export async function getActivityByActivityDateId(req: AuthenticatedRequest, res
     if(error.name === "cannotSaveActivityError") {
       return res.sendStatus(httpStatus.FORBIDDEN);
     }
-    return res.sendStatus(httpStatus.CONFLICT);
+    return res.sendStatus(httpStatus.BAD_REQUEST);
   }
 }

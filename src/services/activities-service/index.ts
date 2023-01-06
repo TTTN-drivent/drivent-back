@@ -7,6 +7,7 @@ import {
 import enrollmentRepository from "@/repositories/enrollment-repository";
 import ticketRepository from "@/repositories/ticket-repository";
 import activityRepository from "@/repositories/activity-repository";
+import { Activity, ActivityRegister } from "@prisma/client";
 
 async function enrollmentTicketValidation(userId: number) {
   const enrollment = await enrollmentRepository.findWithAddressByUserId(userId);
@@ -66,16 +67,36 @@ async function createRegister(userId: number, activityId: number) {
   if(activity.capacity <= 0) {
     throw cannotSaveActivityError();
   }
-  /*
-  comparar se tem nas atividades que ele já tá registrado alguma que bate horário com a que ele quer registrar
-  provavelmente fazer uma função separada para não ficar muita coisa aqui dentro
-  if(conflitoDeHorario {
-    throw conflictError();
-  } */
+
+  const conflict = timeConflict(activity, userRegister);
+
+  if(conflict) {
+    throw conflictError("Conflito de horário entre atividades!");
+  }
 
   const newRegister = await activityRepository.createRegister(userId, activityId);
 
   return newRegister;
+}
+
+export type userRegister = ActivityRegister & {Activity: Activity}
+
+function timeConflict(activity: Activity, userRegisters: userRegister[]) {
+  const activityStart = activity.startAt;
+  const activityEnd = activity.endAt;
+  let conflict = false;
+
+  userRegisters.map( userActivity => {
+    const registerStart = userActivity.Activity.startAt;
+    const registerEnd = userActivity.Activity.endAt;
+
+    const startConflict = activityStart >= registerStart && activityStart < registerEnd;
+    const endConflict = activityEnd > registerStart && activityEnd <= registerEnd;
+    if(startConflict || endConflict) {
+      conflict = true;
+    }
+  } );
+  return conflict;
 }
 
 const activitiesService = {

@@ -8,7 +8,7 @@ activitiesRouter
   .all("/*", authenticateToken)
   .get("/dates", getActivityDates)
   .get("/:activityDateId", getActivityByActivityDateId)
-  .get("/:activityId", listActivitiesRegisters)
+  .get("/registers/:activityId", listActivitiesRegisters)
   .post("/", insertRegister);
 
 export { activitiesRouter };
