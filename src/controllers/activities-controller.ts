@@ -41,11 +41,17 @@ export async function insertRegister(req: AuthenticatedRequest, res: Response) {
   try {
     await activitiesService.createRegister(userId, activityId);
     return res.sendStatus(httpStatus.CREATED); 
-  } catch (error) {   
+  } catch (error) {
+    if (error.name === "NotFoundError") {
+      return res.sendStatus(httpStatus.NOT_FOUND);
+    }   
     if (error.name === "PaymentRequiredError") {
       return res.sendStatus(httpStatus.PAYMENT_REQUIRED);
     }
     if (error.name === "cannotListActivitiesError") {
+      return res.sendStatus(httpStatus.FORBIDDEN);
+    }
+    if (error.name === "cannotSaveActivityError") {
       return res.sendStatus(httpStatus.FORBIDDEN);
     }
     return res.sendStatus(httpStatus.CONFLICT);
@@ -64,6 +70,27 @@ export async function getActivityByActivityDateId(req: AuthenticatedRequest, res
       return res.sendStatus(httpStatus.NOT_FOUND);
     }
     if(error.name === "cannotSaveActivityError") {
+      return res.sendStatus(httpStatus.FORBIDDEN);
+    }
+    return res.sendStatus(httpStatus.BAD_REQUEST);
+  }
+}
+
+export async function getActivityLocals(req: AuthenticatedRequest, res: Response) {
+  const { userId } = req;
+
+  try {
+    const locals = await activitiesService.getLocals(userId);
+
+    return res.status(httpStatus.OK).send(locals);
+  } catch (error) {
+    if (error.name === "NotFoundError") {
+      return res.sendStatus(httpStatus.NOT_FOUND);
+    }
+    if (error.name === "PaymentRequiredError") {
+      return res.sendStatus(httpStatus.PAYMENT_REQUIRED);
+    }
+    if (error.name === "cannotListActivitiesError") {
       return res.sendStatus(httpStatus.FORBIDDEN);
     }
     return res.sendStatus(httpStatus.BAD_REQUEST);

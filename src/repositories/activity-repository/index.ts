@@ -53,13 +53,18 @@ async function listActivity(activityId: number) {
   });
 }
 
+async function findActivityLocals() {
+  return await prisma.activityLocal.findMany();
+}
+
 const activityRepository = {
   findActivityDates,
   findActivityByDateId,
   listRegistersByActivityId,
   listRegistersByUserId,
   createRegister,
-  listActivity
+  listActivity,
+  findActivityLocals
 };
 
 export default activityRepository;

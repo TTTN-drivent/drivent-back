@@ -60,6 +60,8 @@ async function createRegister(userId: number, activityId: number) {
   const activity = await activityRepository.listActivity(activityId);
   const userRegister = await activityRepository.listRegistersByUserId(userId);
 
+  await enrollmentTicketValidation(userId);
+
   if(!activity) {
     throw notFoundError();
   }
@@ -99,11 +101,22 @@ function timeConflict(activity: Activity, userRegisters: userRegister[]) {
   return conflict;
 }
 
+async function getLocals(userId: number) {
+  await enrollmentTicketValidation(userId);
+
+  const activityLocals = await activityRepository.findActivityLocals();
+  if (!activityLocals.length) {
+    throw notFoundError();
+  }
+  return activityLocals;
+}
+
 const activitiesService = {
   getDates,
   getActivitiesByDateId,
   listRegisters,
-  createRegister
+  createRegister,
+  getLocals
 };
 
 export default activitiesService;
