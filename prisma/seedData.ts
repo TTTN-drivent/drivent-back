@@ -240,49 +240,49 @@ export const secondActivityData = [
   {
     name: 'Minecraft: montando o PC ideal',
     capacity: 52,
-    startAt: dayjs(`${firstDay} 09:00`, 'YYYY-MM-DD HH:mm').toDate(),
-    endAt: dayjs(`${firstDay} 10:00`, 'YYYY-MM-DD HH:mm').toDate()
+    startAt: dayjs(`${secondDay} 09:00`, 'YYYY-MM-DD HH:mm').toDate(),
+    endAt: dayjs(`${secondDay} 10:00`, 'YYYY-MM-DD HH:mm').toDate()
   },
   {
     name: 'LoL: montando o PC ideal',
-    capacity: 0,
-    startAt: dayjs(`${firstDay} 10:00`, 'YYYY-MM-DD HH:mm').toDate(),
-    endAt: dayjs(`${firstDay} 11:00`, 'YYYY-MM-DD HH:mm').toDate()
+    capacity: 5,
+    startAt: dayjs(`${secondDay} 10:00`, 'YYYY-MM-DD HH:mm').toDate(),
+    endAt: dayjs(`${secondDay} 11:00`, 'YYYY-MM-DD HH:mm').toDate()
   },
   {
     name: 'Palestra x',
     capacity: 27,
-    startAt: dayjs(`${firstDay} 11:00`, 'YYYY-MM-DD HH:mm').toDate(),
-    endAt: dayjs(`${firstDay} 12:00`, 'YYYY-MM-DD HH:mm').toDate()
+    startAt: dayjs(`${secondDay} 11:00`, 'YYYY-MM-DD HH:mm').toDate(),
+    endAt: dayjs(`${secondDay} 12:00`, 'YYYY-MM-DD HH:mm').toDate()
   },
   {
     name: 'Palestra y',
     capacity: 27,
-    startAt: dayjs(`${firstDay} 09:00`, 'YYYY-MM-DD HH:mm').toDate(),
-    endAt: dayjs(`${firstDay} 10:00`, 'YYYY-MM-DD HH:mm').toDate()
+    startAt: dayjs(`${secondDay} 09:00`, 'YYYY-MM-DD HH:mm').toDate(),
+    endAt: dayjs(`${secondDay} 10:00`, 'YYYY-MM-DD HH:mm').toDate()
   },
   {
     name: 'Palestra z',
-    capacity: 0,
-    startAt: dayjs(`${firstDay} 10:00`, 'YYYY-MM-DD HH:mm').toDate(),
-    endAt: dayjs(`${firstDay} 12:00`, 'YYYY-MM-DD HH:mm').toDate()
+    capacity: 5,
+    startAt: dayjs(`${secondDay} 10:00`, 'YYYY-MM-DD HH:mm').toDate(),
+    endAt: dayjs(`${secondDay} 12:00`, 'YYYY-MM-DD HH:mm').toDate()
   }] as Activity[]
 
 export const thirdActivityData = [{
   name: 'Palestra x',
   capacity: 27,
-  startAt: dayjs(`${firstDay} 09:00`, 'YYYY-MM-DD HH:mm').toDate(),
-  endAt: dayjs(`${firstDay} 10:00`, 'YYYY-MM-DD HH:mm').toDate()
+  startAt: dayjs(`${thirdDay} 09:00`, 'YYYY-MM-DD HH:mm').toDate(),
+  endAt: dayjs(`${thirdDay} 10:00`, 'YYYY-MM-DD HH:mm').toDate()
 },
 {
   name: 'Coffee Break',
   capacity: 27,
-  startAt: dayjs(`${firstDay} 10:00`, 'YYYY-MM-DD HH:mm').toDate(),
-  endAt: dayjs(`${firstDay} 12:00`, 'YYYY-MM-DD HH:mm').toDate()
+  startAt: dayjs(`${thirdDay} 10:00`, 'YYYY-MM-DD HH:mm').toDate(),
+  endAt: dayjs(`${thirdDay} 12:00`, 'YYYY-MM-DD HH:mm').toDate()
 },
 {
   name: 'Palestra Final',
   capacity: 100,
-  startAt: dayjs(`${firstDay} 12:00`, 'YYYY-MM-DD HH:mm').toDate(),
-  endAt: dayjs(`${firstDay} 13:00`, 'YYYY-MM-DD HH:mm').toDate()
+  startAt: dayjs(`${thirdDay} 12:00`, 'YYYY-MM-DD HH:mm').toDate(),
+  endAt: dayjs(`${thirdDay} 13:00`, 'YYYY-MM-DD HH:mm').toDate()
 }] as Activity[]
