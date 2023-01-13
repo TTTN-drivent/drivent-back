@@ -53,7 +53,7 @@ async function createTicket(ticket: CreateTicketParams) {
   });
 }
 
-async function ticketProcessPayment(ticketId: number) {
+function ticketProcessPayment(ticketId: number) {
   return prisma.ticket.update({
     where: {
       id: ticketId,

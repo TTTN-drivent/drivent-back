@@ -16,7 +16,7 @@ async function findById(enrollmentId: number) {
   });
 }
 
-async function upsert(
+function upsert(
   userId: number,
   createdEnrollment: CreateEnrollmentParams,
   updatedEnrollment: UpdateEnrollmentParams,

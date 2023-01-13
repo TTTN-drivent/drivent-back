@@ -2,6 +2,7 @@ import { conflictError, notFoundError, unauthorizedError } from "@/errors";
 import paymentRepository from "@/repositories/payment-repository";
 import ticketRepository from "@/repositories/ticket-repository";
 import enrollmentRepository from "@/repositories/enrollment-repository";
+import { Transactions } from "@/repositories/transactions";
 
 async function verifyTicketAndEnrollment(ticketId: number, userId: number) {
   const ticket = await ticketRepository.findTickeyById(ticketId);
@@ -44,9 +45,7 @@ async function paymentProcess(ticketId: number, userId: number, cardData: CardPa
     throw conflictError("Payment conflict");
   }
 
-  const payment = await paymentRepository.createPayment(ticketId, paymentData);
-
-  await ticketRepository.ticketProcessPayment(ticketId);
+  const [payment] = await Transactions.PaymentTransaction(ticket.id, paymentData);
 
   return payment;
 }
