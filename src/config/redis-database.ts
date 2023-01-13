@@ -8,5 +8,7 @@ const connectDB = async () => {
   await redis.connect();
 };
 
+connectDB();
+
 export { redis };
 

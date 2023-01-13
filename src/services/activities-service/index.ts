@@ -27,9 +27,9 @@ async function enrollmentTicketValidation(userId: number) {
 
 async function getDates(userId: number) {
   await enrollmentTicketValidation(userId);
-  let activityDates: ActivityDate[] = JSON.parse(await activityCache.getActivityDates());
+  let activityDates = JSON.parse(await activityCache.getActivityDates()) as ActivityDate[];
   if (!activityDates) {
-    activityDates = await activityRepository.findActivityDates();
+    activityDates = await activityRepository.findActivityDates() as ActivityDate[];
     await activityCache.setActivityDates(activityDates);
   }
   if (!activityDates.length) {
