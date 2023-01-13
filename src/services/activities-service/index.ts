@@ -75,6 +75,7 @@ async function listRegisters(userId: number, activityId: number) {
 async function createRegister(userId: number, activityId: number) {
   const activity = await activityRepository.listActivity(activityId);
   const userRegister = await activityRepository.listRegistersByUserId(userId);
+  const activityRegisters = await activityRepository.listRegistersByActivityId(activityId);
 
   await enrollmentTicketValidation(userId);
 
@@ -82,7 +83,7 @@ async function createRegister(userId: number, activityId: number) {
     throw notFoundError();
   }
 
-  if(activity.capacity <= 0) {
+  if(activity.capacity - activityRegisters.length <= 0) {
     throw cannotSaveActivityError();
   }
 
