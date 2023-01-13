@@ -6,8 +6,8 @@ import {
   conflictError } from "@/errors";
 import enrollmentRepository from "@/repositories/enrollment-repository";
 import ticketRepository from "@/repositories/ticket-repository";
-import activityRepository from "@/repositories/activity-repository";
-import { Activity, ActivityRegister } from "@prisma/client";
+import { activityCache, activityRepository } from "@/repositories/activity-repository/index";
+import { Activity, ActivityDate, ActivityLocal, ActivityRegister } from "@prisma/client";
 
 async function enrollmentTicketValidation(userId: number) {
   const enrollment = await enrollmentRepository.findWithAddressByUserId(userId);
@@ -27,8 +27,11 @@ async function enrollmentTicketValidation(userId: number) {
 
 async function getDates(userId: number) {
   await enrollmentTicketValidation(userId);
-
-  const activityDates = await activityRepository.findActivityDates();
+  let activityDates = JSON.parse(await activityCache.getActivityDates()) as ActivityDate[];
+  if (!activityDates) {
+    activityDates = await activityRepository.findActivityDates() as ActivityDate[];
+    await activityCache.setActivityDates(activityDates);
+  }
   if (!activityDates.length) {
     throw notFoundError();
   }
@@ -38,7 +41,12 @@ async function getDates(userId: number) {
 async function getActivitiesByDateId(userId: number, activityDateId: number) {
   await enrollmentTicketValidation(userId);
 
-  const filteredActivities = await activityRepository.findActivityByDateId(activityDateId);
+  let filteredActivities: Activity[] = JSON.parse(await activityCache.getActivityById(`Activity${activityDateId}`));
+
+  if (!filteredActivities) {
+    filteredActivities = await activityRepository.findActivityByDateId(activityDateId);
+    await activityCache.setActivityById(filteredActivities, activityDateId);
+  }
 
   if (!filteredActivities.length) {
     throw notFoundError();
@@ -47,12 +55,20 @@ async function getActivitiesByDateId(userId: number, activityDateId: number) {
 }
 
 async function listRegisters(userId: number, activityId: number) {
-  const activityRegisters = await activityRepository.listRegistersByActivityId(activityId);
+  let activityRegisters = JSON.parse(await activityCache.getRegisters(activityId)) as ActivityRegister[];
+
+  if (!activityRegisters) {
+    activityRegisters = await activityRepository.listRegistersByActivityId(activityId);
+    const userRegister = activityRegisters.find(reg => reg.userId === userId);
+    const isRegistered = userRegister ? true : false;
+    const registersCount = activityRegisters.length;
+    await activityCache.setRegisters(activityRegisters, activityId);
+    return { isRegistered, registersCount };
+  }
 
   const userRegister = activityRegisters.find(reg => reg.userId === userId);
   const isRegistered = userRegister ? true : false;
   const registersCount = activityRegisters.length;
- 
   return { isRegistered, registersCount };
 }
 
@@ -78,6 +94,8 @@ async function createRegister(userId: number, activityId: number) {
   }
 
   const newRegister = await activityRepository.createRegister(userId, activityId);
+
+  await activityCache.deleteRegisters(activityId);
 
   return newRegister;
 }
@@ -105,7 +123,13 @@ function timeConflict(activity: Activity, userRegisters: userRegister[]) {
 async function getLocals(userId: number) {
   await enrollmentTicketValidation(userId);
 
-  const activityLocals = await activityRepository.findActivityLocals();
+  let activityLocals = JSON.parse(await activityCache.getLocals()) as ActivityLocal[];
+
+  if (!activityLocals) {
+    activityLocals = await activityRepository.findActivityLocals();
+    await activityCache.setLocals(activityLocals);
+  }
+
   if (!activityLocals.length) {
     throw notFoundError();
   }
