@@ -16,10 +16,7 @@ export async function getHotels(req: AuthenticatedRequest, res: Response) {
     if (error.name === "cannotListHotelsError") {
       return res.sendStatus(httpStatus.PAYMENT_REQUIRED);
     }
-    if (error.name === "invalidTicketTypeError") {
-      return res.sendStatus(httpStatus.FORBIDDEN);
-    }
-    return res.sendStatus(httpStatus.BAD_REQUEST);
+    return res.sendStatus(httpStatus.FORBIDDEN);
   }
 }
 
@@ -37,6 +34,9 @@ export async function getHotelsWithRooms(req: AuthenticatedRequest, res: Respons
     }
     if (error.name === "cannotListHotelsError") {
       return res.sendStatus(httpStatus.PAYMENT_REQUIRED);
+    }
+    if (error.name === "invalidTicketTypeError") {
+      return res.sendStatus(httpStatus.FORBIDDEN);
     }
     return res.sendStatus(httpStatus.BAD_REQUEST);
   }

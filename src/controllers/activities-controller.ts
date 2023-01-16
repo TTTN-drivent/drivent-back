@@ -9,7 +9,6 @@ export async function getActivityDates(req: AuthenticatedRequest, res: Response)
     const dates = await activitiesService.getDates(userId);
     return res.status(httpStatus.OK).send(dates);
   } catch (error) {
-    console.log(error);
     if (error.name === "NotFoundError") {
       return res.sendStatus(httpStatus.NOT_FOUND);
     }
@@ -70,7 +69,10 @@ export async function getActivityByActivityDateId(req: AuthenticatedRequest, res
     if (error.name === "NotFoundError") {
       return res.sendStatus(httpStatus.NOT_FOUND);
     }
-    if(error.name === "cannotSaveActivityError") {
+    if (error.name === "PaymentRequiredError") {
+      return res.sendStatus(httpStatus.PAYMENT_REQUIRED);
+    }
+    if (error.name === "cannotListActivitiesError") {
       return res.sendStatus(httpStatus.FORBIDDEN);
     }
     return res.sendStatus(httpStatus.BAD_REQUEST);

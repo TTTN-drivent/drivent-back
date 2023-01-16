@@ -41,13 +41,12 @@ async function getDates(userId: number) {
 async function getActivitiesByDateId(userId: number, activityDateId: number) {
   await enrollmentTicketValidation(userId);
 
-  let filteredActivities: Activity[] = JSON.parse(await activityCache.getActivityById(`Activity${activityDateId}`));
+  let filteredActivities = JSON.parse(await activityCache.getActivityById(`Activity${activityDateId}`)) as Activity[];
 
   if (!filteredActivities) {
     filteredActivities = await activityRepository.findActivityByDateId(activityDateId);
     await activityCache.setActivityById(filteredActivities, activityDateId);
   }
-
   if (!filteredActivities.length) {
     throw notFoundError();
   }

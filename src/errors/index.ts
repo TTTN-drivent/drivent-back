@@ -11,3 +11,4 @@ export * from "./bad-request-error";
 export * from "./cannot-list-activities-error";
 export * from "./payment-required-error";
 export * from "./cannot-save-activity-error";
+export * from "./no-content-error";

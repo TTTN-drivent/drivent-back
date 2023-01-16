@@ -1,5 +1,6 @@
 import * as jwt from "jsonwebtoken";
 import { User } from "@prisma/client";
+import { redis } from "@/config/redis-database";
 
 import { createUser } from "./factories";
 import { createSession } from "./factories/sessions-factory";
@@ -13,10 +14,15 @@ export async function cleanDb() {
   await prisma.event.deleteMany({});
   await prisma.session.deleteMany({});
   await prisma.booking.deleteMany({});
+  await prisma.activityRegister.deleteMany({});
+  await prisma.activity.deleteMany({});
   await prisma.user.deleteMany({});
   await prisma.ticketType.deleteMany({});
   await prisma.room.deleteMany({});
   await prisma.hotel.deleteMany({});
+  await prisma.activityDate.deleteMany({});
+  await prisma.activityLocal.deleteMany({});
+  await redis.flushAll();
 }
 
 export async function generateValidToken(user?: User) {

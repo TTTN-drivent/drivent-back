@@ -45,7 +45,13 @@ async function paymentProcess(ticketId: number, userId: number, cardData: CardPa
     throw conflictError("Payment conflict");
   }
 
-  const [payment] = await Transactions.PaymentTransaction(ticket.id, paymentData);
+  const payment = await paymentRepository.createPayment(ticketId, paymentData);
+
+  if (!payment) {
+    throw notFoundError();
+  }
+
+  await ticketRepository.ticketProcessPayment(ticketId);
 
   return payment;
 }
