@@ -1,4 +1,4 @@
-import { conflictError, notFoundError, badRequestError } from "@/errors";
+import { conflictError, notFoundError, badRequestError, noContentError } from "@/errors";
 import ticketRepository from "@/repositories/ticket-repository";
 import enrollmentRepository from "@/repositories/enrollment-repository";
 import { TicketStatus } from "@prisma/client";
@@ -8,8 +8,9 @@ async function getTicketTypes() {
   const ticketTypes = await ticketRepository.findTicketTypes();
 
   if (!ticketTypes) {
-    throw notFoundError();
+    throw noContentError();
   }
+  
   return ticketTypes;
 }
 

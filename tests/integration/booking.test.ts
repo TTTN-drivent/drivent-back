@@ -87,14 +87,22 @@ describe("GET /booking", () => {
 
       expect(response.status).toEqual(httpStatus.OK);
       expect(response.body).toEqual({
-        id: booking.id,
+        Booking: {
+          id: expect.any(Number),
+          roomId: expect.any(Number),
+          userId: expect.any(Number)
+        },
+        Hotel: {
+          id: expect.any(Number),
+          image: expect.any(String),
+          name: expect.any(String)
+        },
         Room: {
           id: expect.any(Number),
           name: expect.any(String),
           capacity: expect.any(Number),
           hotelId: expect.any(Number),
-          createdAt: expect.any(String),
-          updatedAt: expect.any(String)
+          roomBookings: expect.any(Number)
         },
       });
     });
